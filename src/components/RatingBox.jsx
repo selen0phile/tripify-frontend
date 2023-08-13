@@ -1,19 +1,53 @@
 import React from 'react'
 import StarRating from './StarRating'
-import { Container, Heading, Text, VStack } from '@chakra-ui/react'
+import { Box, Container, Flex, Heading, Progress, Stack, Text, VStack } from '@chakra-ui/react'
+import { FaStar } from 'react-icons/fa'
 
-function RatingBox() {
+function RatingBox({ props }) {
     return (
-        <Container margin={'20px'}>
+        <Container width='100%' margin={'20px'}>
             <VStack>
-                <Text fontSize='20px'>
+                <Text fontSize='25px'>
                     Rating Overview
                 </Text>
                 <Heading textAlign={'center'}>
                     4.56
                 </Heading>
                 <StarRating rating={4} size={50} />
+                <Text fontSize='20px'>
+                    2,124 reviews
+                </Text>
+
             </VStack>
+            <Box>
+                <Stack spacing={2}>
+                    <Flex alignItems={'center'} justifyContent={'space-evenly'}>
+                        <Box>5</Box>
+                        <Box color='#ffc107'><FaStar /></Box>
+                        <Box width={'90%'}><Progress borderRadius={'50px'} size='md' value={80} /></Box>
+                    </Flex>
+                    <Flex alignItems={'center'} justifyContent={'space-evenly'}>
+                        <Box>4</Box>
+                        <Box color='#ffc107'><FaStar /></Box>
+                        <Box width={'90%'}><Progress borderRadius={'50px'} size='md' value={50} /></Box>
+                    </Flex>
+                    <Flex alignItems={'center'} justifyContent={'space-evenly'}>
+                        <Box>3</Box>
+                        <Box color='#ffc107'><FaStar /></Box>
+                        <Box width={'90%'}><Progress borderRadius={'50px'} size='md' value={20} /></Box>
+                    </Flex>
+                    <Flex alignItems={'center'} justifyContent={'space-evenly'}>
+                        <Box>2</Box>
+                        <Box color='#ffc107'><FaStar /></Box>
+                        <Box width={'90%'}><Progress borderRadius={'50px'} size='md' value={10} /></Box>
+                    </Flex>
+                    <Flex alignItems={'center'} justifyContent={'space-evenly'}>
+                        <Box>1</Box>
+                        <Box color='#ffc107'><FaStar /></Box>
+                        <Box width={'90%'}><Progress borderRadius={'50px'} size='md' value={5} /></Box>
+                    </Flex>
+                </Stack>
+            </Box>
         </Container>
     )
 }

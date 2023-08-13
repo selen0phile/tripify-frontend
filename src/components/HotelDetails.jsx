@@ -76,7 +76,7 @@ export default function HotelDetails({ props }) {
                         </Text>
                         <Box>
                             <Text
-                                fontSize={{ base: '26px', lg: '28px' }}
+                                fontSize={{ base: '20px', lg: '25px' }}
                                 // color={useColorModeValue('yellow.500', 'yellow.300')}
                                 // fontWeight={'500'}
                                 textTransform={'uppercase'}
@@ -100,7 +100,7 @@ export default function HotelDetails({ props }) {
                         }>
                         <Box>
                             <Text
-                                fontSize={{ base: '26px', lg: '28px' }}
+                                fontSize={{ base: '20x', lg: '25px' }}
                                 // color={useColorModeValue('yellow.500', 'yellow.300')}
                                 // fontWeight={'500'}
                                 textTransform={'uppercase'}
@@ -173,9 +173,7 @@ export default function HotelDetails({ props }) {
                     <Button
                         rounded={'none'}
                         w={'full'}
-                        mt={8}
                         size={'lg'}
-                        py={'7'}
                         bg={useColorModeValue('gray.900', 'gray.50')}
                         color={useColorModeValue('white', 'gray.900')}
                         textTransform={'uppercase'}
@@ -183,17 +181,12 @@ export default function HotelDetails({ props }) {
                             transform: 'translateY(2px)',
                             boxShadow: 'lg',
                         }}>
-                        Add to cart
+                        Add to Trip
                     </Button>
-
-                    <Stack direction="row" alignItems="center" justifyContent={'center'}>
-                        <MdLocalShipping />
-                        <Text>2-3 business days delivery</Text>
-                    </Stack>
                 </Stack>
-                <Box>
+                <Flex justifyContent={'center'}>
                     <RatingBox />
-                </Box>
+                </Flex>
             </SimpleGrid>
         </Container>
     )
