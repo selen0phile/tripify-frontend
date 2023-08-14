@@ -21,7 +21,7 @@ import {
 import { AiOutlineWifi } from 'react-icons/ai'
 import { Link } from 'react-router-dom'
 import CaptionCarousel from './Carousel'
-
+import { Rating } from './Card2'
 
 export default function HotelCard({ props }) {
   return (
@@ -48,6 +48,7 @@ export default function HotelCard({ props }) {
           <Text color='blue.600'>
             ${props.price_per_day} per day
           </Text>
+          <Rating rating={5} numReviews={1000}/>
         </Box>
       </Box>
       {/* </Box> */}

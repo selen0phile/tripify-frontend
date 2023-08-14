@@ -38,6 +38,9 @@ import ColoredCircle from './ColoredCircle'
 import Feature from './Feature'
 import StarRating from './StarRating'
 import RatingBox from './RatingBox'
+import Review from './Review'
+import EmblaCarousel from './EmblaCarousel'
+// import { EmblaCarousel } from './EmblaCarousel'
 
 export default function HotelDetails({ props }) {
     return (
@@ -45,7 +48,9 @@ export default function HotelDetails({ props }) {
             <SimpleGrid
                 columns={{ base: 1, lg: 2 }}
                 spacing={{ base: 8, md: 10 }}
-                py={{ base: 18, md: 24 }}>
+                pt={{ base: 18, md: 24 }}
+                pb={{ base: 8, md: 14 }}
+            >
                 <Box>
                     <Box>
                         <CaptionCarousel />
@@ -75,14 +80,18 @@ export default function HotelDetails({ props }) {
                             porro, quae, quisquam quos reprehenderit velit? Natus, totam.
                         </Text>
                         <Box>
-                            <Text
+                            {/* <Text
                                 fontSize={{ base: '20px', lg: '25px' }}
                                 // color={useColorModeValue('yellow.500', 'yellow.300')}
                                 // fontWeight={'500'}
                                 textTransform={'uppercase'}
                                 mb={'4'}>
                                 Features
+                            </Text> */}
+                            <Text fontSize='3xl'>
+                                Features
                             </Text>
+                            <br />
                             <Flex flexWrap={'wrap'}>
                                 <Feature name='WiFi' icon={<AiOutlineWifi size={30} />} available={props.has_wifi} />
                                 <Feature name='Parking' icon={<AiFillCar size={30} />} available={props.has_parking} />
@@ -92,6 +101,17 @@ export default function HotelDetails({ props }) {
                     </Stack>
                 </Stack>
                 <Stack spacing={{ base: 6, md: 10 }}>
+                    {/* <Text
+                        fontSize={{ base: '20x', lg: '25px' }}
+                        // color={useColorModeValue('yellow.500', 'yellow.300')}
+                        // fontWeight={'500'}
+                        textTransform={'uppercase'}
+                        mb={'4'}>
+                        More
+                    </Text> */}
+                    <Text fontSize='3xl'>
+                        Details
+                    </Text>
                     <Stack
                         spacing={{ base: 4, sm: 6 }}
                         direction={'column'}
@@ -99,14 +119,7 @@ export default function HotelDetails({ props }) {
                             <StackDivider borderColor={useColorModeValue('gray.200', 'gray.600')} />
                         }>
                         <Box>
-                            <Text
-                                fontSize={{ base: '20x', lg: '25px' }}
-                                // color={useColorModeValue('yellow.500', 'yellow.300')}
-                                // fontWeight={'500'}
-                                textTransform={'uppercase'}
-                                mb={'4'}>
-                                More Details
-                            </Text>
+
                             <TableContainer>
                                 <Table variant='striped'>
                                     <Tbody>
@@ -184,10 +197,43 @@ export default function HotelDetails({ props }) {
                         Add to Trip
                     </Button>
                 </Stack>
-                <Flex justifyContent={'center'}>
-                    <RatingBox />
-                </Flex>
+                <Stack>
+                    <Flex justifyContent={'center'}>
+                        <RatingBox />
+                    </Flex>
+
+
+                </Stack>
             </SimpleGrid>
+            <Box>
+                <EmblaCarousel />
+                <Text fontSize='3xl'>
+                    Reviews
+                </Text>
+                <Flex>
+                    <Review />
+                    <Review />
+                    <Review />
+                </Flex>
+            </Box>
+            <Box>
+                <pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </pre>
+            </Box>
         </Container>
     )
 }

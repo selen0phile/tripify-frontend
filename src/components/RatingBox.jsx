@@ -7,12 +7,15 @@ function RatingBox({ props }) {
     return (
         <Container width='100%' margin={'20px'}>
             <VStack>
-                <Text fontSize='25px'>
+                <Text fontSize='3xl'>
                     Rating Overview
                 </Text>
-                <Heading textAlign={'center'}>
-                    4.56
-                </Heading>
+                <Flex alignItems={'baseline'}>
+                    <Heading size='2xl' textAlign={'center'}>
+                        4.56
+                    </Heading>
+                    <Text fontSize='3xl'>/5</Text>
+                </Flex>
                 <StarRating rating={4} size={50} />
                 <Text fontSize='20px'>
                     2,124 reviews
