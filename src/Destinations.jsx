@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
-import { Box, Button, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormControl, FormLabel, Heading, Input, RangeSlider, RangeSliderFilledTrack, RangeSliderMark, RangeSliderThumb, RangeSliderTrack, SimpleGrid, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Container, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormControl, FormLabel, GridItem, Heading, Input, RangeSlider, RangeSliderFilledTrack, RangeSliderMark, RangeSliderThumb, RangeSliderTrack, SimpleGrid, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Text, useDisclosure } from '@chakra-ui/react'
 import { api_base } from './Config'
 import HotelCard from './components/HotelCard'
 import { MultiSelect } from 'chakra-multiselect'
@@ -63,42 +63,12 @@ function Destinations() {
   return (
     <div>
       <Navbar2 />
-      <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Box style={{ margin: '10px' }}>
-          <Heading>Destinations</Heading>
+      <Container maxW='2000px'>
+        <Box margin='20px' style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <Text fontSize='4xl'>Destinations</Text>
         </Box>
-        <Box>
-          <Button leftIcon={<BiFilterAlt />} variant='solid' ref={btnRef}  onClick={onOpen}>
-            Filter
-          </Button>
-        </Box>
-      </Box>
-
-      <center>
-        <SimpleGrid columns={{ sm: 1, md: 3, lg: 6 }} spacing={5} style={{ width: '100%' }} p='30px'>
-
-          {
-            dests.map((item, index) => (
-              <Link to={`/destination/${item.destination_id}`}>
-                <HotelCard props={item} />
-              </Link>
-            ))
-          }
-        </SimpleGrid>
-      </center>
-
-      <Drawer
-        size='md'
-        isOpen={isOpen}
-        placement='right'
-        onClose={onClose}
-        finalFocusRef={btnRef}
-      >
-        <DrawerOverlay />
-        <DrawerContent>
-          <DrawerCloseButton />
-          <DrawerHeader>Filters</DrawerHeader>
-          <DrawerBody>
+        <SimpleGrid columns={{ base: 1, sm: 1, md: 3, lg: 4, xl: 5 }}>
+          <GridItem colSpan={{ base: 1, sm: 1, md: 1, lg: 1, xl: 1 }} padding='20px'>
             <FormControl>
               <FormLabel>Name</FormLabel>
               <Input variant='filled' placeholder='' value={filter.name} onChange={(e) => {
@@ -133,15 +103,42 @@ function Destinations() {
             </FormControl>
             <br />
             <Button onClick={searchClick}>Search</Button>
-          </DrawerBody>
-          {/* <DrawerFooter>
-            <Button variant='outline' mr={3} onClick={onClose}>
-              Cancel
-            </Button>
-            <Button colorScheme='blue'>Save</Button>
-          </DrawerFooter> */}
-        </DrawerContent>
-      </Drawer>
+          </GridItem>
+          <GridItem colSpan={{ base: 1, sm: 1, md: 2, lg: 3, xl: 4 }}>
+            <SimpleGrid columns={{ base: 1, sm: 1, md: 1, lg: 2, xl: 3 }} spacing={10} style={{ width: '100%' }} p='30px'>
+              {
+                dests.map((item, index) => (
+                  <Link to={`/destination/${item.destination_id}`}>
+                    <HotelCard props={item} height='256px' />
+                  </Link>
+                ))
+              }
+            </SimpleGrid>
+          </GridItem>
+        </SimpleGrid>
+        {/* <Drawer
+          size='md'
+          isOpen={isOpen}
+          placement='right'
+          onClose={onClose}
+          finalFocusRef={btnRef}
+        >
+          <DrawerOverlay />
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>Filters</DrawerHeader>
+            <DrawerBody>
+
+            </DrawerBody>
+            <DrawerFooter>
+              <Button variant='outline' mr={3} onClick={onClose}>
+                Cancel
+              </Button>
+              <Button colorScheme='blue'>Save</Button>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer> */}
+      </Container>
     </div>
   )
 }

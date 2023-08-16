@@ -8,7 +8,7 @@ function Navbar2() {
     const bg = useColorModeValue("white", "gray.800");
     const mobileNav = useDisclosure();
     return (
-        <React.Fragment>
+        <div style={{zIndex:'10000'}}>
             <chakra.header bg={bg} w="full" px={{ base: 2, sm: 4, }} py={4} shadow="md">
                 <Flex alignItems="center" justifyContent="space-between" mx="auto">
                     <Flex>
@@ -58,7 +58,7 @@ function Navbar2() {
                     </HStack>
                 </Flex>
             </chakra.header>
-        </React.Fragment>
+        </div>
     );
 }
 

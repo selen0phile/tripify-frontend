@@ -53,7 +53,7 @@ import EmblaCarousel from './EmblaCarousel'
 // import { EmblaCarousel } from './EmblaCarousel'
 import React from 'react'
 
-export default function DestDetails({ props }) {
+export default function ActivityDetails({ props }) {
     const [startDate, setStartDate] = React.useState(new Date());
 
     const { isOpen, onOpen, onClose } = useDisclosure()
@@ -134,11 +134,11 @@ export default function DestDetails({ props }) {
                                         <Tr>
                                             <Td>
                                                 <Flex alignItems='center'>
-                                                    <Box><ImPriceTag size={30} /></Box><Box>&emsp;City</Box>
+                                                    <Box><ImPriceTag size={30} /></Box><Box>&emsp;Category</Box>
                                                 </Flex>
                                             </Td>
                                             <Td>
-                                                {props.city_id}
+                                                {props.category}
                                             </Td>
                                         </Tr>
                                         <Tr>
@@ -148,27 +148,27 @@ export default function DestDetails({ props }) {
                                                         <FaMapMarkerAlt size={30} />
                                                     </Box>
                                                     <Box>
-                                                        &emsp;Address
+                                                        &emsp;Minimum Age
                                                     </Box>
                                                 </Flex>
                                             </Td>
                                             <Td>
-                                                {props.address}
+                                                {props.min_age}
                                             </Td>
                                         </Tr>
                                         <Tr>
                                             <Td>
                                                 <Flex alignItems='center'>
                                                     <Box>
-                                                        <AiOutlineMail size={30} />
+                                                        <FaMapMarkerAlt size={30} />
                                                     </Box>
                                                     <Box>
-                                                        Map
+                                                        &emsp;Maximum Age
                                                     </Box>
                                                 </Flex>
                                             </Td>
                                             <Td>
-                                                <iframe style={{ width: '100%', height: '300px' }} src={`https://maps.google.com/maps?q=${props.latitude},${props.longitude}&output=embed`}></iframe>
+                                                {props.max_age}
                                             </Td>
                                         </Tr>
                                     </Tbody>
@@ -177,11 +177,11 @@ export default function DestDetails({ props }) {
                         </Box>
                         <Box>
                             <Text fontSize={'3xl'}>
-                                Activities
+                                Destinations
                             </Text>
                             <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 2, xl: 2 }} spacing={'20px'}>
-                                {props.activities && props.activities.map((obj, idx) => {
-                                    return <ActivityCard props={obj.activity} price={obj.price} />
+                                {destinations && destinations.map((obj, idx) => {
+                                    return <DestinationCard props={obj}/>
                                 }
                                 )}
                             </SimpleGrid>

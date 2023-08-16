@@ -11,7 +11,6 @@ function Review() {
                     <Flex spacing='4'>
                         <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
                             <Avatar name='Segun Adebayo' src='https://bit.ly/sage-adebayo' />
-
                             <Box>
                                 <Heading size='sm'>Segun Adebayo</Heading>
                                 <Text>Creator, Chakra UI</Text>
