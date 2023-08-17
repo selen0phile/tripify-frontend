@@ -13,6 +13,7 @@ import Trips from './Trips'
 import Restaurants from './Restaurants'
 import Destination from './Destination'
 import Activity from './Activity'
+import CreateTrip from './CreateTrip'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Route path="/destinations" Component={Destinations}/>
           <Route path="/trips" Component={Trips}/>
           <Route path="/restaurants" Component={Restaurants}/>
+          <Route path="/create-trip" Component={CreateTrip}/>
 
           <Route path="/hotel/:id" Component={Hotel}/>
           <Route path="/destination/:id" Component={Destination}/>

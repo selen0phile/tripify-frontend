@@ -51,7 +51,7 @@ import RatingBox from './RatingBox'
 import Review from './Review'
 import EmblaCarousel from './EmblaCarousel'
 // import { EmblaCarousel } from './EmblaCarousel'
-import React from 'react'
+import React, { useEffect } from 'react'
 
 export default function ActivityDetails({ props }) {
     const [startDate, setStartDate] = React.useState(new Date());
@@ -59,7 +59,16 @@ export default function ActivityDetails({ props }) {
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [rating, setRating] = React.useState(0)
     const [review, setReview] = React.useState('')
+    const [destinations, setDestinations] = React.useState([])
+    async function load() {
+        var url = api_base + '/destination/?'
+        const r = await fetch(url)
+        const j = await r.json()
+        setDests(j)
+    }
+    useEffect(() => {
 
+    }, [])
     return (
         <Container maxW={'7xl'}>
             <SimpleGrid
@@ -123,9 +132,7 @@ export default function ActivityDetails({ props }) {
                     <Stack
                         spacing={{ base: 4, sm: 6 }}
                         direction={'column'}
-                        divider={
-                            <StackDivider borderColor={useColorModeValue('gray.200', 'gray.600')} />
-                        }>
+                    >
                         <Box>
 
                             <TableContainer>
@@ -181,26 +188,12 @@ export default function ActivityDetails({ props }) {
                             </Text>
                             <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 2, xl: 2 }} spacing={'20px'}>
                                 {destinations && destinations.map((obj, idx) => {
-                                    return <DestinationCard props={obj}/>
+                                    return <DestinationCard props={obj} />
                                 }
                                 )}
                             </SimpleGrid>
                         </Box>
                     </Stack>
-                    <Button
-                        onClick={onOpen}
-                        rounded={'none'}
-                        w={'full'}
-                        size={'lg'}
-                        bg={useColorModeValue('gray.900', 'gray.50')}
-                        color={useColorModeValue('white', 'gray.900')}
-                        textTransform={'uppercase'}
-                        _hover={{
-                            transform: 'translateY(2px)',
-                            boxShadow: 'lg',
-                        }}>
-                        Add to Trip
-                    </Button>
                 </Stack>
                 <Stack>
                     <Flex justifyContent={'center'}>

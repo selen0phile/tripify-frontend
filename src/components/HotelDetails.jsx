@@ -52,14 +52,26 @@ import EmblaCarousel from './EmblaCarousel'
 // import { EmblaCarousel } from './EmblaCarousel'
 import React from 'react'
 import Carousel from "./Carousel";
+import { addToDict, addToList, setDict } from "../LocalStorage";
 
 export default function HotelDetails({ props }) {
     const [startDate, setStartDate] = React.useState(new Date());
-
+    const [endDate, setEndDate] = React.useState(new Date());
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [rating, setRating] = React.useState(0)
     const [review, setReview] = React.useState('')
 
+    function addClick() {
+        const data = {
+            id: props.hotel_id,
+            name: props.name,
+            start: startDate,
+            end: endDate,
+            cost: Math.round(Math.abs((endDate - startDate) / 86400000)) * props.price_per_day
+        }
+        addToList('_hotels', data)
+        onClose()
+    }
     return (
         <Container maxW={'7xl'}>
             <SimpleGrid
@@ -265,27 +277,35 @@ export default function HotelDetails({ props }) {
                 <ModalContent>
                     <ModalHeader>Add Hotel to Trip</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody display={'flex'} justifyContent={'space-between'}>
-                        <Box>
+                    <ModalBody>
+                        <Stack>
+                            <Flex justifyContent={'space-between'}>
+                                <Box>
+                                    <Box>
+                                        <Text fontSize='xl'>Start</Text>
+                                    </Box>
+                                    <Box>
+                                        <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+                                    </Box>
+                                </Box>
+                                <Box>
+                                    <Box>
+                                        <Text fontSize='xl'>End</Text>
+                                    </Box>
+                                    <Box>
+                                        <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
+                                    </Box>
+                                </Box>
+                            </Flex>
                             <Box>
-                                <Text fontSize='xl'>Start</Text>
+                                <Text fontSize={'xl'}>Cost</Text>
+                                ৳{Math.round(Math.abs((endDate - startDate) / 86400000)) * props.price_per_day}
                             </Box>
-                            <Box>
-                                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-                            </Box>
-                        </Box>
-                        <Box>
-                            <Box>
-                                <Text fontSize='xl'>End</Text>
-                            </Box>
-                            <Box>
-                                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-                            </Box>
-                        </Box>
+                        </Stack>
                     </ModalBody>
                     <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} margin='12px'>
                         <Box>
-                            <Button margin='10px' colorScheme='blue' onClick={() => alert(1)}>OK</Button>
+                            <Button margin='10px' colorScheme='blue' onClick={addClick}>OK</Button>
                         </Box>
                         <Box>
                             <Button margin='10px' onClick={onClose}>Cancel</Button>

@@ -18,10 +18,11 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from 'react-icons/bi'
 // And react-slick as our Carousel Lib
 import Slider from 'react-slick'
 import StarRating from './StarRating'
+import { Link } from 'react-router-dom'
 
 // Settings for the slider
 
-export default function CardSlider({ title, info, rating, price }) {
+export default function CardSlider({ title, info, rating, price, href }) {
     // As we have used custom buttons, we need a reference variable to
     // change the state
     const [slider, setSlider] = useState(null)
@@ -36,6 +37,7 @@ export default function CardSlider({ title, info, rating, price }) {
         autoplaySpeed: 5000,
         slidesToShow: 1,
         slidesToScroll: 1,
+        height:500
     }
 
 
@@ -64,12 +66,12 @@ export default function CardSlider({ title, info, rating, price }) {
         {
             title: '',
             text: '',
-            image: 'https://a0.muscache.com/im/pictures/cb06423e-5332-4f62-8ae9-5414d1cf1dc1.jpg?im_w=1200',
+            image: 'https://a0.muscache.com/im/pictures/df6702b8-c930-4612-926d-4b5f3d284a91.jpg?im_w=1200',
         },
     ]
 
     return (
-        <Box position={'relative'}>
+        <Box height={'100%'} width={'100%'} position={'absolute'}>
             {/* CSS files for react-slick */}
             <link
                 rel="stylesheet"
@@ -103,26 +105,30 @@ export default function CardSlider({ title, info, rating, price }) {
         onClick={() => slider?.slickNext()}>
         <BiRightArrowAlt size="40px" />
       </IconButton> */}
-            <Slider {...settings} ref={(slider) => setSlider(slider)}>
+            <Slider {...settings} ref={(slider) => setSlider(slider)} className='slider'>
                 {cards.map((card, index) => (
-                    <Box position={'relative'}>
-                        <img src={card.image} />
-                        <Box color='white' position={'absolute'} top={'0'} right={'0'} backgroundColor={'black'} p={'5px'}>
-                            <Text fontSize='lg'>
-                                ৳{price}
-                            </Text>
-                        </Box>
-                        <Box padding='10px' color='white' position={'absolute'} bottom={'0'} backgroundColor={'rgba(0,0,0,0.7)'} width={'100%'} textAlign={'left'}>
-                            <Text fontSize={'2xl'}>{title}</Text>
-                            <Flex alignItems={'center'} justifyContent={'space-between'}>
-                                <Box>
-                                    {info}
-                                </Box>
-                                <Box>
-                                    <StarRating rating={rating} />
-                                </Box>
-                            </Flex>
-                        </Box>
+                    <Box position={'relative'} backgroundImage={card.image} backgroundPosition={'center'} backgroundSize={'cover'}
+ backgroundClip={'red'} paddingTop={'100%'}>
+                        {
+                            price && <Box color='white' position={'absolute'} top={'0'} right={'0'} backgroundColor={'black'} p={'10px'}>
+                                <Text fontSize='lg' fontWeight={'bold'}>
+                                    ৳{price}
+                                </Text>
+                            </Box>
+                        }
+                        <Link to={href}>
+                            <Box _hover={{ backgroundColor: 'rgba(0,0,0,0.9)' }} padding='10px' pb={'30px'} pt={'30px'} color='white' position={'absolute'} bottom={'0'} backgroundColor={'rgba(0,0,0,0.7)'} width={'100%'} textAlign={'left'}>
+                                <Text fontSize={'2xl'}>{title}</Text>
+                                <Flex alignItems={'center'} justifyContent={'space-between'}>
+                                    <Box>
+                                        {info}
+                                    </Box>
+                                    <Box>
+                                        <StarRating rating={rating} />
+                                    </Box>
+                                </Flex>
+                            </Box>
+                        </Link>
                     </Box>
                 ))}
             </Slider>

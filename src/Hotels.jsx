@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
-import { Box, Button, Container, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormControl, FormLabel, GridItem, Heading, Input, RangeSlider, RangeSliderFilledTrack, RangeSliderMark, RangeSliderThumb, RangeSliderTrack, SimpleGrid, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Text, useDisclosure } from '@chakra-ui/react'
+import { Box, Button, Card, Container, Drawer, DrawerBody, DrawerCloseButton, DrawerContent, DrawerFooter, DrawerHeader, DrawerOverlay, FormControl, FormLabel, GridItem, Heading, Input, RangeSlider, RangeSliderFilledTrack, RangeSliderMark, RangeSliderThumb, RangeSliderTrack, SimpleGrid, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack, Text, useDisclosure } from '@chakra-ui/react'
 import { api_base } from './Config'
 import HotelCard from './components/HotelCard'
-import { MultiSelect } from 'chakra-multiselect'
 import { Select } from 'chakra-react-select'
 import { FormField } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { BiFilterAlt } from 'react-icons/bi'
 import Navbar2 from './components/Navbar2'
+import CardSlider from './components/CardSlider'
 
 function Hotels() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -56,7 +56,6 @@ function Hotels() {
     Object.keys(filter).forEach(x => {
       url = url + x + '=' + filter[x] + '&'
     })
-    console.log(url)
     const r = await fetch(url)
     const j = await r.json()
     setHotels(j)
@@ -172,12 +171,12 @@ function Hotels() {
             <Button onClick={searchClick}>Search</Button>
           </GridItem>
           <GridItem colSpan={{ base: 1, sm: 1, md: 2, lg: 3, xl: 4 }}>
-            <SimpleGrid columns={{ base: 1, sm: 1, md: 1, lg: 2, xl: 3 }} spacing={10} style={{ width: '100%' }} p='30px'>
+            <SimpleGrid columns={{ base: 1, sm: 1, md: 2, lg: 3, xl: 4 }} spacing={1} style={{ width: '100%' }} p='30px'>
               {
                 hotels.map((item, index) => (
-                  <Link to={`/hotel/${item.hotel_id}`}>
-                    <HotelCard props={item} height='256px' />
-                  </Link>
+                  <Card key={index} className="card" paddingBottom={'100%'} width={'100%'} position={'relative'}>
+                    <CardSlider price={item.price_per_day} href={`/hotel/${item.hotel_id}`} title={item.name} info={item.address} rating={Math.floor(Math.random() * 5)} />
+                  </Card>
                 ))
               }
             </SimpleGrid>

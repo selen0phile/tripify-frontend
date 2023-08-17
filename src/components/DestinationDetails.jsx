@@ -35,6 +35,7 @@ import {
     ModalBody,
     Textarea,
     useDisclosure,
+    Card,
 } from '@chakra-ui/react'
 import { MdLocalShipping, MdSportsGymnastics } from 'react-icons/md'
 import Carousel from './Carousel'
@@ -52,14 +53,27 @@ import Review from './Review'
 import EmblaCarousel from './EmblaCarousel'
 // import { EmblaCarousel } from './EmblaCarousel'
 import React from 'react'
+import { addToList } from '../LocalStorage';
+import CardSlider from './CardSlider';
 
 export default function DestDetails({ props }) {
     const [startDate, setStartDate] = React.useState(new Date());
+    const [endDate, setEndDate] = React.useState(new Date());
 
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [rating, setRating] = React.useState(0)
     const [review, setReview] = React.useState('')
-
+    function addClick() {
+        const data = {
+            id: props.destination_id,
+            name: props.name,
+            start: startDate,
+            end: endDate,
+            address: props.address
+        }
+        addToList('_destinations', data)
+        onClose()
+    }
     return (
         <Container maxW={'7xl'}>
             <SimpleGrid
@@ -123,9 +137,7 @@ export default function DestDetails({ props }) {
                     <Stack
                         spacing={{ base: 4, sm: 6 }}
                         direction={'column'}
-                        divider={
-                            <StackDivider borderColor={useColorModeValue('gray.200', 'gray.600')} />
-                        }>
+                    >
                         <Box>
 
                             <TableContainer>
@@ -175,32 +187,38 @@ export default function DestDetails({ props }) {
                                 </Table>
                             </TableContainer>
                         </Box>
+                        <Button
+                            onClick={onOpen}
+                            rounded={'none'}
+                            w={'full'}
+                            size={'lg'}
+                            bg={useColorModeValue('gray.900', 'gray.50')}
+                            color={useColorModeValue('white', 'gray.900')}
+                            textTransform={'uppercase'}
+                            _hover={{
+                                transform: 'translateY(2px)',
+                                boxShadow: 'lg',
+                            }}>
+                            Add to Trip
+                        </Button>
                         <Box>
-                            <Text fontSize={'3xl'}>
-                                Activities
-                            </Text>
-                            <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 2, xl: 2 }} spacing={'20px'}>
-                                {props.activities && props.activities.map((obj, idx) => {
-                                    return <ActivityCard props={obj.activity} price={obj.price} />
-                                }
-                                )}
-                            </SimpleGrid>
+                            <Stack spacing={{ base: 6, md: 10 }}>
+                                <Text fontSize={'3xl'}>
+                                    Activities
+                                </Text>
+                                <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 2, xl: 2 }} spacing={'20px'}>
+                                    {props.activities && props.activities.map((item, index) =>
+                                        <Box>
+                                            <Card key={index} className="card" paddingBottom={'100%'} width={'100%'} position={'relative'}>
+                                                <CardSlider price={item.price} title={item.activity.name} info={item.activity.category} rating={Math.floor(Math.random() * 5)} />
+                                            </Card>
+                                        </Box>
+                                    )}
+                                </SimpleGrid>
+                            </Stack>
                         </Box>
                     </Stack>
-                    <Button
-                        onClick={onOpen}
-                        rounded={'none'}
-                        w={'full'}
-                        size={'lg'}
-                        bg={useColorModeValue('gray.900', 'gray.50')}
-                        color={useColorModeValue('white', 'gray.900')}
-                        textTransform={'uppercase'}
-                        _hover={{
-                            transform: 'translateY(2px)',
-                            boxShadow: 'lg',
-                        }}>
-                        Add to Trip
-                    </Button>
+
                 </Stack>
                 <Stack>
                     <Flex justifyContent={'center'}>
@@ -235,7 +253,7 @@ export default function DestDetails({ props }) {
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Add Hotel to Trip</ModalHeader>
+                    <ModalHeader>Add Destination to Trip</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody display={'flex'} justifyContent={'space-between'}>
                         <Box>
@@ -251,13 +269,13 @@ export default function DestDetails({ props }) {
                                 <Text fontSize='xl'>End</Text>
                             </Box>
                             <Box>
-                                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
+                                <DatePicker selected={endDate} onChange={(date) => setEndDate(date)} />
                             </Box>
                         </Box>
                     </ModalBody>
                     <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} margin='12px'>
                         <Box>
-                            <Button margin='10px' colorScheme='blue' onClick={() => alert(1)}>OK</Button>
+                            <Button margin='10px' colorScheme='blue' onClick={addClick}>OK</Button>
                         </Box>
                         <Box>
                             <Button margin='10px' onClick={onClose}>Cancel</Button>
