@@ -77,7 +77,7 @@ export default function Carousel() {
       </IconButton>
       <Slider {...settings} ref={(slider) => setSlider(slider)}>
         {images.map((img, index) => (
-          <Box>
+          <Box key={index}>
             <img src={img} />
           </Box>
         ))}

@@ -37,7 +37,7 @@ export default function CardSlider({ title, info, rating, price, href }) {
         autoplaySpeed: 5000,
         slidesToShow: 1,
         slidesToScroll: 1,
-        height:500
+        height: 500
     }
 
 
@@ -107,16 +107,16 @@ export default function CardSlider({ title, info, rating, price, href }) {
       </IconButton> */}
             <Slider {...settings} ref={(slider) => setSlider(slider)} className='slider'>
                 {cards.map((card, index) => (
-                    <Box position={'relative'} backgroundImage={card.image} backgroundPosition={'center'} backgroundSize={'cover'}
- backgroundClip={'red'} paddingTop={'100%'}>
-                        {
-                            price && <Box color='white' position={'absolute'} top={'0'} right={'0'} backgroundColor={'black'} p={'10px'}>
-                                <Text fontSize='lg' fontWeight={'bold'}>
-                                    ৳{price}
-                                </Text>
-                            </Box>
-                        }
-                        <Link to={href}>
+                    <Link to={href} key={index}>
+                        <Box position={'relative'} backgroundImage={card.image} backgroundPosition={'center'} backgroundSize={'cover'}
+                            backgroundClip={'red'} paddingTop={'100%'}>
+                            {
+                                price && <Box color='white' position={'absolute'} top={'0'} right={'0'} backgroundColor={'black'} p={'10px'}>
+                                    <Text fontSize='lg' fontWeight={'bold'}>
+                                        ৳{price}
+                                    </Text>
+                                </Box>
+                            }
                             <Box _hover={{ backgroundColor: 'rgba(0,0,0,0.9)' }} padding='10px' pb={'30px'} pt={'30px'} color='white' position={'absolute'} bottom={'0'} backgroundColor={'rgba(0,0,0,0.7)'} width={'100%'} textAlign={'left'}>
                                 <Text fontSize={'2xl'}>{title}</Text>
                                 <Flex alignItems={'center'} justifyContent={'space-between'}>
@@ -128,10 +128,10 @@ export default function CardSlider({ title, info, rating, price, href }) {
                                     </Box>
                                 </Flex>
                             </Box>
-                        </Link>
-                    </Box>
+                        </Box>
+                    </Link>
                 ))}
             </Slider>
-        </Box>
+        </Box >
     )
 }

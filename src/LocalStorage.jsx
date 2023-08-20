@@ -41,3 +41,13 @@ export function addToDict(dict, key, value) {
     t[key] = value
     localStorage.setItem(dict, JSON.stringify(t))
 }
+
+export function getItem(x) {
+    const t = localStorage.getItem(x)
+    if(t === null) return ''
+    return t
+}
+
+export function setItem(x,y) {
+    localStorage.setItem(x,y)
+}

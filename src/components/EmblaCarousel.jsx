@@ -9,7 +9,7 @@ const EmblaCarousel = (props) => {
         containScroll: false,
         nViewThreshold: 0,
         dragFree: true,
-        containScroll: 'trimSnaps'
+        // containScroll: 'trimSnaps'
     }
     const slides = [1, 2, 3]
     const [emblaRef, emblaApi] = useEmblaCarousel(options)

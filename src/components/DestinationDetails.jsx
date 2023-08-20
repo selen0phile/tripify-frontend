@@ -52,17 +52,25 @@ import RatingBox from './RatingBox'
 import Review from './Review'
 import EmblaCarousel from './EmblaCarousel'
 // import { EmblaCarousel } from './EmblaCarousel'
-import React from 'react'
+import React, { useState } from 'react'
 import { addToList } from '../LocalStorage';
 import CardSlider from './CardSlider';
+import ActivityDetails from './ActivityDetails';
 
 export default function DestDetails({ props }) {
-    const [startDate, setStartDate] = React.useState(new Date());
-    const [endDate, setEndDate] = React.useState(new Date());
+    const [startDate, setStartDate] = useState(new Date());
+    const [endDate, setEndDate] = useState(new Date());
 
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [rating, setRating] = React.useState(0)
-    const [review, setReview] = React.useState('')
+    const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure()
+
+    const [rating, setRating] = useState(0)
+    const [review, setReview] = useState('')
+    const [activity, setActivity] = useState({})
+    function activityClick(id) {
+        setActivity(props.activities[id])
+        onOpen2()
+    }
     function addClick() {
         const data = {
             id: props.destination_id,
@@ -208,7 +216,7 @@ export default function DestDetails({ props }) {
                                 </Text>
                                 <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 2, xl: 2 }} spacing={'20px'}>
                                     {props.activities && props.activities.map((item, index) =>
-                                        <Box>
+                                        <Box onClick={() => activityClick(index)} key={index}>
                                             <Card key={index} className="card" paddingBottom={'100%'} width={'100%'} position={'relative'}>
                                                 <CardSlider price={item.price} title={item.activity.name} info={item.activity.category} rating={Math.floor(Math.random() * 5)} />
                                             </Card>
@@ -231,25 +239,29 @@ export default function DestDetails({ props }) {
                         <Box marginTop='20px'>
                             <EmblaCarousel />
                         </Box>
-                        <Box marginTop={'20px'}>
-                            <Text fontSize='3xl' textAlign={'center'}>
-                                Write a Review
-                            </Text>
-                            <Box margin='10px'>
-                                <Box marginBottom={'10px'}>
-                                    <StarRating allowReview={true} rating={rating} setRating={setRating} size={30} />
-                                </Box>
-                                <Textarea marginBottom={'10px'} value={review} rows='4' variant='filled' placeholder='Review' onChange={(e) => {
-                                    setReview(e.target.value)
-                                }} />
-                                <Button colorScheme="blue" size={'md'}>Post</Button>
-                            </Box>
-                        </Box>
+
                     </Box>
                 </Stack>
             </SimpleGrid>
             <Box height={'500px'}>
             </Box>
+            <Modal onClose={onClose2} isOpen={isOpen2} isCentered size={'5xl'}>
+                <ModalOverlay />
+                <ModalContent>
+                    <ModalHeader>
+                        Activity Details
+                    </ModalHeader>
+                    <ModalCloseButton />
+                    <ModalBody display={'flex'} justifyContent={'space-between'}>
+                        <ActivityDetails props={activity.activity} price={activity.price} destination={props.name} destinationId={props.destination_id}/>
+                    </ModalBody>
+                    <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} margin='12px'>
+                        <Box>
+                            <Button margin='10px' onClick={onClose2}>Cancel</Button>
+                        </Box>
+                    </Box>
+                </ModalContent>
+            </Modal>
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
@@ -283,6 +295,7 @@ export default function DestDetails({ props }) {
                     </Box>
                 </ModalContent>
             </Modal>
+
         </Container>
     )
 }

@@ -35,8 +35,13 @@ import {
     ModalBody,
     Textarea,
     useDisclosure,
+    NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper,
 } from '@chakra-ui/react'
-import { MdLocalShipping, MdSportsGymnastics } from 'react-icons/md'
+import { MdCategory, MdLocalShipping, MdSportsGymnastics } from 'react-icons/md'
 import Carousel from './Carousel'
 import Carousel2 from './Carousel2'
 import { ImPriceTag } from 'react-icons/im'
@@ -51,20 +56,37 @@ import RatingBox from './RatingBox'
 import Review from './Review'
 import EmblaCarousel from './EmblaCarousel'
 // import { EmblaCarousel } from './EmblaCarousel'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import { addToDict, addToList } from '../LocalStorage';
+import { BiSolidHourglassBottom, BiSolidHourglassTop } from 'react-icons/bi';
 
-export default function ActivityDetails({ props }) {
-    const [startDate, setStartDate] = React.useState(new Date());
-
+export default function ActivityDetails({ props, price, destination, destinationId }) {
+    const [date, setDate] = useState(new Date());
     const { isOpen, onOpen, onClose } = useDisclosure()
-    const [rating, setRating] = React.useState(0)
-    const [review, setReview] = React.useState('')
-    const [destinations, setDestinations] = React.useState([])
+    const [rating, setRating] = useState(0)
+    const [review, setReview] = useState('')
+    const [destinations, setDestinations] = useState([])
+    const [persons, setPersons] = useState(1)
+
     async function load() {
         var url = api_base + '/destination/?'
         const r = await fetch(url)
         const j = await r.json()
         setDests(j)
+    }
+    function okClick() {
+        const t = {
+            id: props.activity_id,
+            name: props.name,
+            destination: destination,
+            destination_id: destinationId,
+            date: date,
+            persons: persons,
+            cost: persons * price,
+        }
+        // alert(JSON.stringify(t))
+        addToList('_activities', t)
+        onClose()
     }
     useEffect(() => {
 
@@ -138,10 +160,34 @@ export default function ActivityDetails({ props }) {
                             <TableContainer>
                                 <Table variant='striped'>
                                     <Tbody>
+                                        {
+                                            price && <Tr>
+                                                <Td>
+                                                    <Flex alignItems='center'>
+                                                        <Box><ImPriceTag size={30} /></Box><Box>&emsp;Price Per Person</Box>
+                                                    </Flex>
+                                                </Td>
+                                                <Td>
+                                                    ৳{price}
+                                                </Td>
+                                            </Tr>
+                                        }
+                                        {
+                                            destination && <Tr>
+                                                <Td>
+                                                    <Flex alignItems='center'>
+                                                        <Box><FaMapMarkerAlt size={30} /></Box><Box>&emsp;Destination</Box>
+                                                    </Flex>
+                                                </Td>
+                                                <Td>
+                                                    {destination}
+                                                </Td>
+                                            </Tr>
+                                        }
                                         <Tr>
                                             <Td>
                                                 <Flex alignItems='center'>
-                                                    <Box><ImPriceTag size={30} /></Box><Box>&emsp;Category</Box>
+                                                    <Box><MdCategory size={30} /></Box><Box>&emsp;Category</Box>
                                                 </Flex>
                                             </Td>
                                             <Td>
@@ -152,7 +198,7 @@ export default function ActivityDetails({ props }) {
                                             <Td>
                                                 <Flex alignItems='center'>
                                                     <Box>
-                                                        <FaMapMarkerAlt size={30} />
+                                                        <BiSolidHourglassBottom size={30} />
                                                     </Box>
                                                     <Box>
                                                         &emsp;Minimum Age
@@ -167,7 +213,7 @@ export default function ActivityDetails({ props }) {
                                             <Td>
                                                 <Flex alignItems='center'>
                                                     <Box>
-                                                        <FaMapMarkerAlt size={30} />
+                                                        <BiSolidHourglassTop size={30} />
                                                     </Box>
                                                     <Box>
                                                         &emsp;Maximum Age
@@ -182,13 +228,29 @@ export default function ActivityDetails({ props }) {
                                 </Table>
                             </TableContainer>
                         </Box>
+                        {
+                            price && <Button
+                                onClick={onOpen}
+                                rounded={'none'}
+                                w={'full'}
+                                size={'lg'}
+                                bg={useColorModeValue('gray.900', 'gray.50')}
+                                color={useColorModeValue('white', 'gray.900')}
+                                textTransform={'uppercase'}
+                                _hover={{
+                                    transform: 'translateY(2px)',
+                                    boxShadow: 'lg',
+                                }}>
+                                Add to Trip
+                            </Button>
+                        }
                         <Box>
                             <Text fontSize={'3xl'}>
                                 Destinations
                             </Text>
                             <SimpleGrid columns={{ base: 1, sm: 2, md: 2, lg: 2, xl: 2 }} spacing={'20px'}>
                                 {destinations && destinations.map((obj, idx) => {
-                                    return <DestinationCard props={obj} />
+                                    return <DestinationCard key={idx} props={obj} />
                                 }
                                 )}
                             </SimpleGrid>
@@ -228,29 +290,37 @@ export default function ActivityDetails({ props }) {
             <Modal onClose={onClose} isOpen={isOpen} isCentered>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Add Hotel to Trip</ModalHeader>
+                    <ModalHeader>Add Activity to Trip</ModalHeader>
                     <ModalCloseButton />
-                    <ModalBody display={'flex'} justifyContent={'space-between'}>
-                        <Box>
-                            <Box>
-                                <Text fontSize='xl'>Start</Text>
-                            </Box>
-                            <Box>
-                                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-                            </Box>
-                        </Box>
-                        <Box>
-                            <Box>
-                                <Text fontSize='xl'>End</Text>
-                            </Box>
-                            <Box>
-                                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} />
-                            </Box>
-                        </Box>
+                    <ModalBody>
+                        <Stack>
+                            <Stack direction={'row'} alignItems={'center'}>
+                                <Box>
+                                    <Text fontSize='xl'>Date</Text>
+                                </Box>
+                                <Box>
+                                    <DatePicker selected={date} onChange={(date) => setDate(date)} />
+                                </Box>
+                            </Stack>
+                            <Stack direction={'row'} alignItems={'center'}>
+                                <Box>
+                                    <Text fontSize='xl'>Persons</Text>
+                                </Box>
+                                <Box>
+                                    <NumberInput maxW={100} defaultValue={1} min={1} value={persons} onChange={(v) => setPersons(v)}>
+                                        <NumberInputField />
+                                        <NumberInputStepper>
+                                            <NumberIncrementStepper />
+                                            <NumberDecrementStepper />
+                                        </NumberInputStepper>
+                                    </NumberInput>
+                                </Box>
+                            </Stack>
+                        </Stack>
                     </ModalBody>
                     <Box display={'flex'} alignItems={'center'} justifyContent={'space-between'} margin='12px'>
                         <Box>
-                            <Button margin='10px' colorScheme='blue' onClick={() => alert(1)}>OK</Button>
+                            <Button margin='10px' colorScheme='blue' onClick={okClick}>OK</Button>
                         </Box>
                         <Box>
                             <Button margin='10px' onClick={onClose}>Cancel</Button>

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import HotelDetails from './components/HotelDetails'
 import { getCities, getHotels } from "./API"
 import Navbar2 from "./components/Navbar2"
-import { FormField } from 'semantic-ui-react'
 import { Select } from 'chakra-react-select'
 import Hotels from './Hotels'
 import HotelCard from './components/HotelCard'
